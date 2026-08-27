@@ -14,9 +14,27 @@ const clearBtn = document.getElementById("clear-filters");
 const resultCountEl = document.getElementById("result-count");
 const latestNoEl = document.getElementById("latest-no");
 
+const modalOverlay = document.getElementById("modal-overlay");
+const modalClose = document.getElementById("modal-close");
+const modalImage = document.getElementById("modal-image");
+const modalPrev = document.getElementById("modal-prev");
+const modalNext = document.getElementById("modal-next");
+const modalNo = document.getElementById("modal-no");
+const modalTitle = document.getElementById("modal-title");
+const modalMeta = document.getElementById("modal-meta");
+const modalTags = document.getElementById("modal-tags");
+const modalCount = document.getElementById("modal-count");
+
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
+const modalState = {
+  entry: null,
+  index: 0,
+  lastFocused: null,
+};
+
 init();
+initModal();
 
 async function init() {
   try {
@@ -123,18 +141,17 @@ function render() {
 }
 
 function buildCard(entry) {
-  const card = document.createElement("a");
+  const card = document.createElement("button");
   card.className = "card";
-  card.href = entry.external;
-  card.target = "_blank";
-  card.rel = "noopener noreferrer";
+  card.type = "button";
 
   const [y, m] = entry.date.split("-");
   const dateLabel = `${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
+  const thumb = entry.images[0];
 
   card.innerHTML = `
     <span class="card-no">No. ${String(entry.id).padStart(3, "0")}</span>
-    <img class="card-thumb" src="${entry.thumb}" alt="${entry.title}" loading="lazy">
+    <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
     <div class="card-body">
       <p class="card-title">${entry.title}</p>
       <div class="card-meta">
@@ -144,8 +161,73 @@ function buildCard(entry) {
       <div class="card-tags">
         ${entry.tags.map((t) => `<span class="card-tag">${t}</span>`).join("")}
       </div>
-      <span class="card-view">View full piece →</span>
+      <span class="card-view">View piece →</span>
     </div>
   `;
+
+  card.addEventListener("click", () => openModal(entry));
   return card;
+}
+
+/* ---------- Modal ---------- */
+
+function initModal() {
+  modalClose.addEventListener("click", closeModal);
+  modalPrev.addEventListener("click", () => stepModal(-1));
+  modalNext.addEventListener("click", () => stepModal(1));
+
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (modalOverlay.hidden) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft") stepModal(-1);
+    if (e.key === "ArrowRight") stepModal(1);
+  });
+}
+
+function openModal(entry) {
+  modalState.entry = entry;
+  modalState.index = 0;
+  modalState.lastFocused = document.activeElement;
+
+  const [y, m] = entry.date.split("-");
+  modalNo.textContent = `No. ${String(entry.id).padStart(3, "0")}`;
+  modalTitle.textContent = entry.title;
+  modalMeta.textContent = `${entry.artist} · ${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
+  modalTags.innerHTML = entry.tags.map((t) => `<span class="card-tag">${t}</span>`).join("");
+
+  renderModalImage();
+
+  modalOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+  modalClose.focus();
+}
+
+function renderModalImage() {
+  const { entry, index } = modalState;
+  const images = entry.images;
+  modalImage.src = images[index];
+  modalImage.alt = `${entry.title} (image ${index + 1} of ${images.length})`;
+  modalCount.textContent = images.length > 1 ? `${index + 1} / ${images.length}` : "";
+  const multi = images.length > 1;
+  modalPrev.hidden = !multi;
+  modalNext.hidden = !multi;
+}
+
+function stepModal(delta) {
+  if (!modalState.entry) return;
+  const total = modalState.entry.images.length;
+  if (total <= 1) return;
+  modalState.index = (modalState.index + delta + total) % total;
+  renderModalImage();
+}
+
+function closeModal() {
+  modalOverlay.hidden = true;
+  document.body.style.overflow = "";
+  modalState.entry = null;
+  if (modalState.lastFocused) modalState.lastFocused.focus();
 }

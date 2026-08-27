@@ -54,8 +54,30 @@
 </main>
 
 <footer class="site-footer">
-  <p>Thumbnails link out to the original host. Nothing here is reproduced beyond a preview image.</p>
+  <p>Click any thumbnail to view the piece.</p>
 </footer>
+
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close">×</button>
+
+    <div class="modal-image-wrap">
+      <button class="modal-nav modal-prev" id="modal-prev" type="button" aria-label="Previous image">‹</button>
+      <img class="modal-image" id="modal-image" src="" alt="">
+      <button class="modal-nav modal-next" id="modal-next" type="button" aria-label="Next image">›</button>
+    </div>
+
+    <div class="modal-info">
+      <div>
+        <p class="modal-no" id="modal-no"></p>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <p class="modal-meta" id="modal-meta"></p>
+        <div class="modal-tags" id="modal-tags"></div>
+      </div>
+      <p class="modal-count" id="modal-count"></p>
+    </div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
