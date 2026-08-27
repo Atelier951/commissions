@@ -2,17 +2,20 @@ const state = {
   entries: [],
   year: "",
   month: "",
+  search: "",
   activeTags: new Set(),
 };
 
 const galleryEl = document.getElementById("gallery");
 const emptyStateEl = document.getElementById("empty-state");
+const searchInput = document.getElementById("search-input");
 const yearSelect = document.getElementById("year-select");
 const monthSelect = document.getElementById("month-select");
-const tagChipsEl = document.getElementById("tag-chips");
+const tagDropdown = document.getElementById("tag-dropdown");
+const tagDropdownSummary = document.getElementById("tag-dropdown-summary");
+const tagMenuEl = document.getElementById("tag-menu");
 const clearBtn = document.getElementById("clear-filters");
 const resultCountEl = document.getElementById("result-count");
-const latestNoEl = document.getElementById("latest-no");
 
 const modalOverlay = document.getElementById("modal-overlay");
 const modalClose = document.getElementById("modal-close");
@@ -23,6 +26,7 @@ const modalNo = document.getElementById("modal-no");
 const modalTitle = document.getElementById("modal-title");
 const modalMeta = document.getElementById("modal-meta");
 const modalTags = document.getElementById("modal-tags");
+const modalDescription = document.getElementById("modal-description");
 const modalCount = document.getElementById("modal-count");
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -50,14 +54,15 @@ async function init() {
   }
 
   state.entries.sort((a, b) => b.id - a.id);
-  if (state.entries.length) {
-    latestNoEl.textContent = String(state.entries[0].id).padStart(3, "0");
-  }
 
   buildYearOptions();
-  buildTagChips();
+  buildTagMenu();
   render();
 
+  searchInput.addEventListener("input", () => {
+    state.search = searchInput.value.trim().toLowerCase();
+    render();
+  });
   yearSelect.addEventListener("change", () => {
     state.year = yearSelect.value;
     render();
@@ -69,11 +74,20 @@ async function init() {
   clearBtn.addEventListener("click", () => {
     state.year = "";
     state.month = "";
+    state.search = "";
     state.activeTags.clear();
     yearSelect.value = "";
     monthSelect.value = "";
-    document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    searchInput.value = "";
+    tagMenuEl.querySelectorAll("input[type=checkbox]").forEach((cb) => (cb.checked = false));
+    updateTagSummary();
     render();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (tagDropdown.open && !tagDropdown.contains(e.target)) {
+      tagDropdown.open = false;
+    }
   });
 }
 
@@ -93,25 +107,31 @@ function buildYearOptions() {
   });
 }
 
-function buildTagChips() {
+function buildTagMenu() {
   const tags = [...new Set(state.entries.flatMap((e) => e.tags))].sort();
   tags.forEach((tag) => {
-    const chip = document.createElement("button");
-    chip.className = "chip";
-    chip.type = "button";
-    chip.textContent = tag;
-    chip.addEventListener("click", () => {
-      if (state.activeTags.has(tag)) {
-        state.activeTags.delete(tag);
-        chip.classList.remove("active");
-      } else {
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = tag;
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
         state.activeTags.add(tag);
-        chip.classList.add("active");
+      } else {
+        state.activeTags.delete(tag);
       }
+      updateTagSummary();
       render();
     });
-    tagChipsEl.appendChild(chip);
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(tag));
+    tagMenuEl.appendChild(label);
   });
+}
+
+function updateTagSummary() {
+  const count = state.activeTags.size;
+  tagDropdownSummary.textContent = count === 0 ? "All tags" : `${count} tag${count > 1 ? "s" : ""} selected`;
 }
 
 function getFiltered() {
@@ -120,6 +140,10 @@ function getFiltered() {
     if (state.year && y !== state.year) return false;
     if (state.month && m !== state.month) return false;
     if (state.activeTags.size && ![...state.activeTags].every((t) => e.tags.includes(t))) return false;
+    if (state.search) {
+      const haystack = `${e.title} ${e.artist} ${e.description || ""}`.toLowerCase();
+      if (!haystack.includes(state.search)) return false;
+    }
     return true;
   });
 }
@@ -150,7 +174,6 @@ function buildCard(entry) {
   const thumb = entry.images[0];
 
   card.innerHTML = `
-    <span class="card-no">No. ${String(entry.id).padStart(3, "0")}</span>
     <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
     <div class="card-body">
       <p class="card-title">${entry.title}</p>
@@ -198,6 +221,7 @@ function openModal(entry) {
   modalTitle.textContent = entry.title;
   modalMeta.textContent = `${entry.artist} · ${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
   modalTags.innerHTML = entry.tags.map((t) => `<span class="card-tag">${t}</span>`).join("");
+  modalDescription.textContent = entry.description || "";
 
   renderModalImage();
 

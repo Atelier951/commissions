@@ -13,21 +13,21 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <p class="eyebrow">Est. 2020 · No. 001–<span id="latest-no">···</span></p>
-    <h1>The Commission<br>Ledger</h1>
-    <p class="hero-sub">A running record of every piece I've commissioned — sorted, numbered, and kept.
-    Click any entry to view the full piece where it's actually hosted.</p>
+    <h1>Atelier951's Commission Gallery</h1>
     <div class="hero-links">
       <a href="#" class="hero-link">About</a>
       <a href="#" class="hero-link">Twitter</a>
       <a href="#" class="hero-link">Bluesky</a>
     </div>
   </div>
-  <div class="ledger-spine" aria-hidden="true"></div>
 </header>
 
 <main>
   <nav class="filter-bar" id="filter-bar">
+    <div class="filter-group search-group">
+      <label for="search-input">Search</label>
+      <input type="text" id="search-input" placeholder="Search title, artist, description…">
+    </div>
     <div class="filter-group">
       <label for="year-select">Year</label>
       <select id="year-select">
@@ -41,8 +41,11 @@
       </select>
     </div>
     <div class="filter-group tags-group">
-      <label>Tags</label>
-      <div id="tag-chips" class="tag-chips"></div>
+      <label id="tags-label">Tags</label>
+      <details class="tag-dropdown" id="tag-dropdown">
+        <summary id="tag-dropdown-summary">All tags</summary>
+        <div class="tag-menu" id="tag-menu"></div>
+      </details>
     </div>
     <button id="clear-filters" class="clear-btn">Clear filters</button>
     <p class="result-count" id="result-count"></p>
@@ -73,6 +76,7 @@
         <h2 class="modal-title" id="modal-title"></h2>
         <p class="modal-meta" id="modal-meta"></p>
         <div class="modal-tags" id="modal-tags"></div>
+        <p class="modal-description" id="modal-description"></p>
       </div>
       <p class="modal-count" id="modal-count"></p>
     </div>
