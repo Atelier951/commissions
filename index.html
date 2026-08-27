@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Commission Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Est. 2020 · No. 001–<span id="latest-no">···</span></p>
+    <h1>The Commission<br>Ledger</h1>
+    <p class="hero-sub">A running record of every piece I've commissioned — sorted, numbered, and kept.
+    Click any entry to view the full piece where it's actually hosted.</p>
+    <div class="hero-links">
+      <a href="#" class="hero-link">About</a>
+      <a href="#" class="hero-link">Twitter</a>
+      <a href="#" class="hero-link">Bluesky</a>
+    </div>
+  </div>
+  <div class="ledger-spine" aria-hidden="true"></div>
+</header>
+
+<main>
+  <nav class="filter-bar" id="filter-bar">
+    <div class="filter-group">
+      <label for="year-select">Year</label>
+      <select id="year-select">
+        <option value="">All</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="month-select">Month</label>
+      <select id="month-select">
+        <option value="">All</option>
+      </select>
+    </div>
+    <div class="filter-group tags-group">
+      <label>Tags</label>
+      <div id="tag-chips" class="tag-chips"></div>
+    </div>
+    <button id="clear-filters" class="clear-btn">Clear filters</button>
+    <p class="result-count" id="result-count"></p>
+  </nav>
+
+  <section class="gallery" id="gallery" aria-live="polite"></section>
+
+  <p class="empty-state" id="empty-state" hidden>Nothing matches those filters. Try clearing one.</p>
+</main>
+
+<footer class="site-footer">
+  <p>Thumbnails link out to the original host. Nothing here is reproduced beyond a preview image.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
