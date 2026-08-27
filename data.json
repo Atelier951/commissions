@@ -1,13 +1,17 @@
 [
   {
     "id": 302,
-    "title": "Your New Piece",
-    "artist": "@artist_handle",
+    "title": "Lys-Mechamusume ",
+    "artist": "@uky [vgen]",
     "date": "2026-08-27",
-    "tags": ["character", "color"],
+    "tags": ["Lys", "mecha"],
     "images": [
-      "https://link-to-image-1.jpg",
-      "https://link-to-image-2.jpg"
+      "https://cdn.imgchest.com/files/a86438385a85.png",
+      "https://cdn.imgchest.com/files/e85541485cc8.png"
+	  "https://cdn.imgchest.com/files/ea37c0bcd504.png"
+	  "https://cdn.imgchest.com/files/d0f3ae4708cb.png"
+	  "https://cdn.imgchest.com/files/f6f9dd398d23.png"
+	  "https://cdn.imgchest.com/files/7f588cfcef8b.png"
     ]
   },
   {
