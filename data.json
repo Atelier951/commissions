@@ -4,10 +4,7 @@
     "title": "Battlefield Aftermath",
     "artist": "@fifth_artist",
     "date": "2026-08-10",
-    "tags": [
-      "guro",
-      "monochrome"
-    ],
+    "tags": ["guro","monochrome"],
     "description": "A darker commission exploring an aftermath scene. Hidden by default behind the guro toggle.",
     "thumbnail": "",
     "source": "",
@@ -20,10 +17,7 @@
     "title": "Lys-Mechamusume",
     "artist": "@uky [vgen]",
     "date": "2026-08-27",
-    "tags": [
-      "Lys",
-      "mecha"
-    ],
+    "tags": ["Lys","mecha"],
     "description": "A full mecha-musume redesign commissioned for Lys, blending armor plating with a softer color palette. Delivered as a six-image set covering the front view, back detail, and close-ups on the helmet and joint mechanisms.",
     "images": [
       "https://cdn.imgchest.com/files/a86438385a85.png",
@@ -41,11 +35,7 @@
     "title": "Riverside Portrait",
     "artist": "@example_artist",
     "date": "2026-07-15",
-    "tags": [
-      "character",
-      "color",
-      "full-body"
-    ],
+    "tags": ["character","color","full-body"],
     "description": "A quiet full-body portrait set along a riverbank at golden hour.",
     "images": [
       "https://picsum.photos/seed/301/900/900",
@@ -59,11 +49,7 @@
     "title": "Duo Sketch \u2014 Ink Study",
     "artist": "@another_artist",
     "date": "2026-06-02",
-    "tags": [
-      "sketch",
-      "duo",
-      "monochrome"
-    ],
+    "tags": ["sketch","duo","monochrome"],
     "description": "Loose ink studies of two characters sketched together, exploring pose and weight without color.",
     "images": [
       "https://picsum.photos/seed/300/900/1125"
@@ -76,11 +62,7 @@
     "title": "Garden Bust",
     "artist": "@example_artist",
     "date": "2026-05-21",
-    "tags": [
-      "character",
-      "color",
-      "bust"
-    ],
+    "tags": ["character","color","bust"],
     "description": "A close character bust set among garden foliage, focused on lighting and expression.",
     "images": [
       "https://picsum.photos/seed/299/900/900",
@@ -95,11 +77,7 @@
     "title": "Winter Coat Redesign",
     "artist": "@third_artist",
     "date": "2026-05-03",
-    "tags": [
-      "character",
-      "color",
-      "outfit-design"
-    ],
+    "tags": ["character","color","outfit-design"],
     "description": "A redesign pass on the character's winter coat, exploring silhouette and layering.",
     "images": [
       "https://picsum.photos/seed/298/900/1200",
@@ -113,11 +91,7 @@
     "title": "Chibi Set (x3)",
     "artist": "@another_artist",
     "date": "2026-03-18",
-    "tags": [
-      "chibi",
-      "color",
-      "set"
-    ],
+    "tags": ["chibi","color","set"],
     "description": "A set of three chibi-style commissions, each with a different pose and prop.",
     "images": [
       "https://picsum.photos/seed/297/900/900",
@@ -132,11 +106,7 @@
     "title": "Battle Pose Lineart",
     "artist": "@fourth_artist",
     "date": "2026-02-27",
-    "tags": [
-      "lineart",
-      "action",
-      "monochrome"
-    ],
+    "tags": ["lineart","action","monochrome"],
     "description": "Clean lineart capturing a dynamic battle pose, left uncolored by request.",
     "images": [
       "https://picsum.photos/seed/296/900/1125"
@@ -149,11 +119,7 @@
     "title": "Autumn Stroll",
     "artist": "@example_artist",
     "date": "2026-01-11",
-    "tags": [
-      "character",
-      "color",
-      "background"
-    ],
+    "tags": ["character","color","background"],
     "description": "A character walking through fallen leaves, with the background painted to match the season.",
     "images": [
       "https://picsum.photos/seed/295/900/900",
@@ -167,11 +133,7 @@
     "title": "Holiday Card Doodle",
     "artist": "@third_artist",
     "date": "2025-12-20",
-    "tags": [
-      "sketch",
-      "holiday",
-      "duo"
-    ],
+    "tags": ["sketch","holiday","duo"],
     "description": "A quick holiday-themed doodle featuring two characters exchanging gifts.",
     "images": [
       "https://picsum.photos/seed/294/900/900"
