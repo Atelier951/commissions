@@ -220,9 +220,13 @@ function buildCard(entry) {
   card.type = "button";
 
   const thumb = getThumb(entry);
+  const count = entry.images.length;
 
   card.innerHTML = `
-    <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
+    <div class="card-thumb-wrap">
+      <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
+      <span class="card-image-count">${count}</span>
+    </div>
     <div class="card-body">
       <p class="card-title">${entry.title}</p>
     </div>

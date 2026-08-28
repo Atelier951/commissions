@@ -75,7 +75,7 @@ a { color: inherit; }
   top: 0;
   z-index: 10;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 1.5rem;
   padding: 1rem 1.5rem;
@@ -85,12 +85,14 @@ a { color: inherit; }
   backdrop-filter: blur(6px);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  overflow-x: auto;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .filter-group label {
@@ -111,10 +113,11 @@ select {
   font-size: 0.85rem;
 }
 
-.tags-group { flex: 1 1 260px; }
+.tags-group { flex: 0 1 220px; flex-shrink: 0; }
 
 .search-group {
-  flex: 1 1 220px;
+  flex: 0 1 200px;
+  flex-shrink: 0;
 }
 
 .search-group input {
@@ -213,6 +216,8 @@ select {
   padding: 0.4rem 0.6rem;
   cursor: pointer;
   transition: all 0.15s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .guro-btn:hover { border-color: var(--coral); color: var(--paper); }
@@ -235,6 +240,8 @@ select {
   padding: 0.3rem 0;
   text-decoration: underline;
   text-underline-offset: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .result-count {
@@ -242,6 +249,8 @@ select {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--muted);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ---------- Gallery ---------- */
@@ -279,11 +288,32 @@ select {
   box-shadow: 0 14px 28px rgba(0,0,0,0.35);
 }
 
+.card-thumb-wrap {
+  position: relative;
+}
+
 .card-thumb {
   width: 100%;
   height: auto;
   display: block;
   background: var(--paper-dim);
+}
+
+.card-image-count {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  background: rgba(32, 26, 43, 0.55);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-body {
