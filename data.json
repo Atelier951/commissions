@@ -1,24 +1,45 @@
 [
+"//": "Character tags: Eris, Lys, Vayle, Non-OC",
+"//": "Tags: solo, pregnant, bikini, abs, mecha, design",
+
+
+
+
+  {
+    "id": 304,
+    "title": "Lys Summer Fit",
+    "artist": "Rotomdocs",
+    "date": "2026-06-01",
+    "tags": ["Lys","solo","bikini","pregnant","abs"],
+    "description": "Summer pic of Lys, with a bonus bun-in-the-oven variant",
+    "thumbnail": "",
+    "source": "https://ko-fi.com/rotomdocs/gallery",
+    "images": [
+      "https://cdn.imgchest.com/files/9fb28e3f9c58.png",
+	  "https://cdn.imgchest.com/files/dd56c84055ba.png"
+    ]
+  },
   {
     "id": 303,
-    "title": "Battlefield Aftermath",
-    "artist": "@fifth_artist",
-    "date": "2026-08-10",
-    "tags": ["guro","monochrome"],
-    "description": "A darker commission exploring an aftermath scene. Hidden by default behind the guro toggle.",
+    "title": "Eris Summer Fit",
+    "artist": "Rotomdocs",
+    "date": "2026-07-14",
+    "tags": ["Eris","solo","bikini","pregnant"],
+    "description": "Summer pic of Eris, with a bonus bun-in-the-oven variant",
     "thumbnail": "",
-    "source": "",
+    "source": "https://ko-fi.com/rotomdocs/gallery",
     "images": [
-      "https://picsum.photos/seed/303/900/1100"
+      "https://cdn.imgchest.com/files/6b8a4284b44e.png",
+	  "https://cdn.imgchest.com/files/34933d2d3d38.png"
     ]
   },
   {
     "id": 302,
-    "title": "Lys-Mechamusume",
-    "artist": "@uky [vgen]",
-    "date": "2026-08-27",
-    "tags": ["Lys","mecha"],
-    "description": "A full mecha-musume redesign commissioned for Lys, blending armor plating with a softer color palette. Delivered as a six-image set covering the front view, back detail, and close-ups on the helmet and joint mechanisms.",
+    "title": "Mecha Musume Lys",
+    "artist": "uky/uekiyo_ruu",
+    "date": "2026-08-06",
+    "tags": ["Lys","mecha","solo","design"],
+    "description": "A mecha musume design for Lys since she's been lacking one. I envisioned weaponized wings for this design and the artist delivered.",
     "images": [
       "https://cdn.imgchest.com/files/a86438385a85.png",
       "https://cdn.imgchest.com/files/e85541485cc8.png",
@@ -28,7 +49,7 @@
       "https://cdn.imgchest.com/files/7f588cfcef8b.png"
     ],
     "thumbnail": "",
-    "source": "https://vgen.co/example-source-302"
+    "source": "https://vgen.co/Uekiyo_ruu/portfolio"
   },
   {
     "id": 301,
