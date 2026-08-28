@@ -2,8 +2,9 @@
 
 {
     "_TEMPLATE": "Copy/paste below to make a new entry",
-	"_Character tags": ": Eris, Lys, Lys_(old), Vayle, Non-OC",
-	"_Tags": ": solo, pregnant, bikini, abs, mecha, design, tentacles,",
+	"_Character tags": "Eris, Lys, Lys_(old), Vayle, Non-OC",
+	"_Style tags": "design, sketch, ",
+	"_Tags": ": solo, pregnant, bikini, abs, mecha, tentacles, feet, vaginal, anal, breasts, ",
 	
 	"id": 1000000,
     "title": "",
@@ -3278,123 +3279,123 @@
   },
   {
     "id": 11,
-    "title": "",
-    "artist": "",
+    "title": "Lizard on the Beach",
+    "artist": "TangoBat, Anoleanova",
     "date": "",
-    "tags": [],
-    "description": "",
+    "tags": ["Lys","Lys_(old)","solo","bikini","breasts"],
+    "description": "Patreon reward from Tangobat, colored in by Anolea",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/7acaa4ecea95.jpg"]
   },
   {
     "id": 10,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Lys's Tan Lines",
+    "artist": "Figgylicious",
+    "date": "2017-08-25",
+    "tags": ["Lys","Lys_(old)","sketch","solo","bikini"],
+    "description": "Lys with some unfortunate tan lines. Won from a BnF free sketch night.",
     "thumbnail": "",
-    "source": "",
-    "images": []
+    "source": "https://x.com/figgylicious",
+    "images": ["https://cdn.imgchest.com/files/7460187d53d4.jpg"]
   },
   {
     "id": 9,
-    "title": "",
-    "artist": "",
+    "title": "Lys Tentacled",
+    "artist": "Sassquatch",
     "date": "",
-    "tags": [],
+    "tags": ["Lys","Lys_(old)","sketch","solo","tentacles","vaginal"],
     "description": "",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/c6f374726917.jpg"]
   },
   {
     "id": 8,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Eris Footjob",
+    "artist": "TangoBat",
+    "date": "2017-09-29",
+    "tags": ["Eris","solo","feet","vaginal","sketch"],
+    "description": "Patreon raffle reward.",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/45707a0aff31.jpg"]
   },
   {
     "id": 7,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Chainmail Bikini Lys",
+    "artist": "Figgylicious",
+    "date": "2017-10-22",
+    "tags": ["Lys","Lys_(old)","sketch","solo","bikini"],
+    "description": "Lys trying to understand how chainmail bikinis work... Won from a BnF free sketch night.",
     "thumbnail": "",
-    "source": "",
-    "images": []
+    "source": "https://x.com/figgylicious",
+    "images": ["https://cdn.imgchest.com/files/80bd2c07b5a6.jpg"]
   },
   {
     "id": 6,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Eris, Old Design",
+    "artist": "RotiX",
+    "date": "2017-10-26",
+    "tags": ["Eris","solo"],
+    "description": "Old Patreon reward.",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/1ef442c6ae9d.jpg"]
   },
   {
     "id": 5,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Lys Spreading",
+    "artist": "Zaunis, Zaunderground",
+    "date": "2017-11-04",
+    "tags": ["Lys","Lys_(old)","sketch","solo"],
+    "description": "Lys showing off the chinks in her armor.",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/a689e46d878b.jpg"]
   },
   {
     "id": 4,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Lys Tentacled",
+    "artist": "Nivaris",
+    "date": "2017-11-06",
+    "tags": ["Lys","Lys_(old)","sketch","tentacles","solo","vaginal","breasts"],
+    "description": "Doodle of Lys getting tentacled from Nivaris, or SunsetNiva as she was known back in the day.",
     "thumbnail": "",
-    "source": "",
-    "images": []
+    "source": "https://x.com/Nivaris_art",
+    "images": ["https://cdn.imgchest.com/files/eaa840917e02.jpg"]
   },
   {
     "id": 3,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "Cloaked Lys",
+    "artist": "Temix",
+    "date": "2017-11-19",
+    "tags": ["Lys","Lys_(old)","sketch","solo"],
+    "description": "Hey man, wanna see something cool under my cloak? From a raffle Temix held.",
     "thumbnail": "",
-    "source": "",
-    "images": []
+    "source": "https://x.com/temixart?lang=en",
+    "images": ["https://cdn.imgchest.com/files/d9b84e80dc11.jpg"]
   },
   {
     "id": 2,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
+    "title": "Eris stripping",
+    "artist": "salmon88",
+    "date": "2017-11-28",
+    "tags": ["Eris","solo","sketch"],
     "description": "",
     "thumbnail": "",
-    "source": "",
-    "images": []
+    "source": "https://www.deviantart.com/salmon88",
+    "images": ["https://cdn.imgchest.com/files/96e54f4fc0a0.jpg"]
   },
   {
     "id": 1,
-    "title": "",
-    "artist": "",
-    "date": "",
-    "tags": [],
-    "description": "",
+    "title": "BnF Secret Santa Lys",
+    "artist": "DarkArtsKai",
+    "date": "2017-12-24",
+    "tags": ["Lys","Lys_(old)","solo"],
+    "description": "From the 2017 BnF secret Santa event. Lys being cheered on as she enters a tournament.",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": ["https://cdn.imgchest.com/files/00cc1b86acb6.jpg"]
   }
 ]
