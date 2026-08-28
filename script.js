@@ -115,8 +115,14 @@ async function init() {
   });
 }
 
+function hasContent(entry) {
+  return Array.isArray(entry.images) && entry.images.length > 0;
+}
+
 function buildYearOptions() {
-  const years = [...new Set(state.entries.map((e) => e.date.slice(0, 4)))].sort((a, b) => b - a);
+  const years = [...new Set(
+    state.entries.filter(hasContent).map((e) => e.date.slice(0, 4))
+  )].sort((a, b) => b - a);
   years.forEach((y) => {
     const opt = document.createElement("option");
     opt.value = y;
@@ -132,7 +138,7 @@ function buildYearOptions() {
 }
 
 function buildTagMenu() {
-  const tags = [...new Set(state.entries.flatMap((e) => e.tags))]
+  const tags = [...new Set(state.entries.filter(hasContent).flatMap((e) => e.tags))]
     .filter((t) => t.toLowerCase() !== GURO_TAG)
     .sort();
   tags.forEach((tag) => {
@@ -166,6 +172,7 @@ function isGuro(entry) {
 
 function getFiltered() {
   return state.entries.filter((e) => {
+    if (!hasContent(e)) return false;
     if (isGuro(e) && !state.showGuro) return false;
     const [y, m] = e.date.split("-");
     if (state.year && y !== state.year) return false;
@@ -196,7 +203,8 @@ function sortEntries(entries) {
 
 function render() {
   const filtered = sortEntries(getFiltered());
-  resultCountEl.textContent = `${filtered.length} of ${state.entries.length}`;
+  const total = state.entries.filter(hasContent).length;
+  resultCountEl.textContent = `${filtered.length} of ${total}`;
   galleryEl.innerHTML = "";
 
   if (!filtered.length) {

@@ -59,12 +59,20 @@ the filter bar reveals them; click again to hide. This toggle is independent
 of all other filters — guro entries still respect search/date/tag filters
 once revealed.
 
+## Blank / reserved entries
+`data.json` currently has an entry for every id from 1 to 303, so future
+commissions can just have their existing blank entry filled in rather than
+needing a new one added and re-sorted. An entry is treated as blank (and
+skipped entirely from the gallery, filters, and result count) whenever its
+`images` array is empty. To "activate" a reserved id, just fill in its
+`title`, `artist`, `date`, `tags`, and `images` — leaving `images` empty is
+what keeps it hidden.
+
 ## The About and Twitter links
 - **About** opens an in-page popup with your bio text — edit it directly in
   `index.html` inside `<p class="about-text">`
 - **Twitter** links out to `https://x.com/atelier951` — update the `href` in
   `index.html` if that changes
-- **Bluesky** is still a placeholder `#` link — update its `href` when ready
 
 ## Run it locally
 Because the page fetches `data.json`, opening `index.html` directly by
