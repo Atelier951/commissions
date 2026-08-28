@@ -4,6 +4,8 @@ const state = {
   month: "",
   search: "",
   activeTags: new Set(),
+  sortBy: "date",
+  showGuro: false,
 };
 
 const galleryEl = document.getElementById("gallery");
@@ -14,6 +16,8 @@ const monthSelect = document.getElementById("month-select");
 const tagDropdown = document.getElementById("tag-dropdown");
 const tagDropdownSummary = document.getElementById("tag-dropdown-summary");
 const tagMenuEl = document.getElementById("tag-menu");
+const sortSelect = document.getElementById("sort-select");
+const guroToggle = document.getElementById("guro-toggle");
 const clearBtn = document.getElementById("clear-filters");
 const resultCountEl = document.getElementById("result-count");
 
@@ -27,9 +31,16 @@ const modalTitle = document.getElementById("modal-title");
 const modalMeta = document.getElementById("modal-meta");
 const modalTags = document.getElementById("modal-tags");
 const modalDescription = document.getElementById("modal-description");
+const modalSource = document.getElementById("modal-source");
+const modalSourceLink = document.getElementById("modal-source-link");
 const modalCount = document.getElementById("modal-count");
 
+const aboutLink = document.getElementById("about-link");
+const aboutOverlay = document.getElementById("about-overlay");
+const aboutClose = document.getElementById("about-close");
+
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const GURO_TAG = "guro";
 
 const modalState = {
   entry: null,
@@ -39,6 +50,7 @@ const modalState = {
 
 init();
 initModal();
+initAboutModal();
 
 async function init() {
   try {
@@ -52,8 +64,6 @@ async function init() {
     </p>`;
     return;
   }
-
-  state.entries.sort((a, b) => b.id - a.id);
 
   buildYearOptions();
   buildTagMenu();
@@ -71,14 +81,28 @@ async function init() {
     state.month = monthSelect.value;
     render();
   });
+  sortSelect.addEventListener("change", () => {
+    state.sortBy = sortSelect.value;
+    render();
+  });
+  guroToggle.addEventListener("click", () => {
+    state.showGuro = !state.showGuro;
+    guroToggle.setAttribute("aria-pressed", String(state.showGuro));
+    guroToggle.innerHTML = state.showGuro
+      ? '<span aria-hidden="true">🩸</span> Hide guro'
+      : '<span aria-hidden="true">🩸</span> Show guro';
+    render();
+  });
   clearBtn.addEventListener("click", () => {
     state.year = "";
     state.month = "";
     state.search = "";
     state.activeTags.clear();
+    state.sortBy = "date";
     yearSelect.value = "";
     monthSelect.value = "";
     searchInput.value = "";
+    sortSelect.value = "date";
     tagMenuEl.querySelectorAll("input[type=checkbox]").forEach((cb) => (cb.checked = false));
     updateTagSummary();
     render();
@@ -108,7 +132,9 @@ function buildYearOptions() {
 }
 
 function buildTagMenu() {
-  const tags = [...new Set(state.entries.flatMap((e) => e.tags))].sort();
+  const tags = [...new Set(state.entries.flatMap((e) => e.tags))]
+    .filter((t) => t.toLowerCase() !== GURO_TAG)
+    .sort();
   tags.forEach((tag) => {
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
@@ -134,8 +160,13 @@ function updateTagSummary() {
   tagDropdownSummary.textContent = count === 0 ? "All tags" : `${count} tag${count > 1 ? "s" : ""} selected`;
 }
 
+function isGuro(entry) {
+  return entry.tags.some((t) => t.toLowerCase() === GURO_TAG);
+}
+
 function getFiltered() {
   return state.entries.filter((e) => {
+    if (isGuro(e) && !state.showGuro) return false;
     const [y, m] = e.date.split("-");
     if (state.year && y !== state.year) return false;
     if (state.month && m !== state.month) return false;
@@ -148,8 +179,23 @@ function getFiltered() {
   });
 }
 
+function sortEntries(entries) {
+  const sorted = [...entries];
+  sorted.sort((a, b) => {
+    if (state.sortBy === "id") {
+      return b.id - a.id;
+    }
+    // sort by date, tie-break by id
+    if (a.date !== b.date) {
+      return a.date < b.date ? 1 : -1;
+    }
+    return b.id - a.id;
+  });
+  return sorted;
+}
+
 function render() {
-  const filtered = getFiltered();
+  const filtered = sortEntries(getFiltered());
   resultCountEl.textContent = `${filtered.length} of ${state.entries.length}`;
   galleryEl.innerHTML = "";
 
@@ -164,27 +210,21 @@ function render() {
   });
 }
 
+function getThumb(entry) {
+  return entry.thumbnail && entry.thumbnail.trim() ? entry.thumbnail : entry.images[0];
+}
+
 function buildCard(entry) {
   const card = document.createElement("button");
   card.className = "card";
   card.type = "button";
 
-  const [y, m] = entry.date.split("-");
-  const dateLabel = `${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
-  const thumb = entry.images[0];
+  const thumb = getThumb(entry);
 
   card.innerHTML = `
     <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
     <div class="card-body">
       <p class="card-title">${entry.title}</p>
-      <div class="card-meta">
-        <span>${entry.artist}</span>
-        <span>${dateLabel}</span>
-      </div>
-      <div class="card-tags">
-        ${entry.tags.map((t) => `<span class="card-tag">${t}</span>`).join("")}
-      </div>
-      <span class="card-view">View piece →</span>
     </div>
   `;
 
@@ -192,7 +232,7 @@ function buildCard(entry) {
   return card;
 }
 
-/* ---------- Modal ---------- */
+/* ---------- Image modal ---------- */
 
 function initModal() {
   modalClose.addEventListener("click", closeModal);
@@ -222,6 +262,13 @@ function openModal(entry) {
   modalMeta.textContent = `${entry.artist} · ${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
   modalTags.innerHTML = entry.tags.map((t) => `<span class="card-tag">${t}</span>`).join("");
   modalDescription.textContent = entry.description || "";
+
+  if (entry.source && entry.source.trim()) {
+    modalSourceLink.href = entry.source;
+    modalSource.hidden = false;
+  } else {
+    modalSource.hidden = true;
+  }
 
   renderModalImage();
 
@@ -254,4 +301,32 @@ function closeModal() {
   document.body.style.overflow = "";
   modalState.entry = null;
   if (modalState.lastFocused) modalState.lastFocused.focus();
+}
+
+/* ---------- About modal ---------- */
+
+function initAboutModal() {
+  let lastFocused = null;
+
+  aboutLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    lastFocused = document.activeElement;
+    aboutOverlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    aboutClose.focus();
+  });
+
+  function close() {
+    aboutOverlay.hidden = true;
+    document.body.style.overflow = "";
+    if (lastFocused) lastFocused.focus();
+  }
+
+  aboutClose.addEventListener("click", close);
+  aboutOverlay.addEventListener("click", (e) => {
+    if (e.target === aboutOverlay) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!aboutOverlay.hidden && e.key === "Escape") close();
+  });
 }

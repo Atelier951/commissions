@@ -16,6 +16,24 @@
       "https://cdn.imgchest.com/files/d0f3ae4708cb.png",
       "https://cdn.imgchest.com/files/f6f9dd398d23.png",
       "https://cdn.imgchest.com/files/7f588cfcef8b.png"
+    ],
+    "thumbnail": "",
+    "source": "https://vgen.co/example-source-302"
+  },
+  {
+    "id": 303,
+    "title": "Battlefield Aftermath",
+    "artist": "@fifth_artist",
+    "date": "2026-08-10",
+    "tags": [
+      "guro",
+      "monochrome"
+    ],
+    "description": "A darker commission exploring an aftermath scene. Hidden by default behind the guro toggle.",
+    "thumbnail": "",
+    "source": "",
+    "images": [
+      "https://picsum.photos/seed/303/900/1100"
     ]
   },
   {
@@ -32,7 +50,9 @@
     "images": [
       "https://picsum.photos/seed/301/900/900",
       "https://picsum.photos/seed/301b/900/900"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 300,
@@ -47,7 +67,9 @@
     "description": "Loose ink studies of two characters sketched together, exploring pose and weight without color.",
     "images": [
       "https://picsum.photos/seed/300/900/1125"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 299,
@@ -64,7 +86,9 @@
       "https://picsum.photos/seed/299/900/900",
       "https://picsum.photos/seed/299b/900/900",
       "https://picsum.photos/seed/299c/900/900"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 298,
@@ -80,7 +104,9 @@
     "images": [
       "https://picsum.photos/seed/298/900/1200",
       "https://picsum.photos/seed/298b/900/1200"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 297,
@@ -97,7 +123,9 @@
       "https://picsum.photos/seed/297/900/900",
       "https://picsum.photos/seed/297b/900/900",
       "https://picsum.photos/seed/297c/900/900"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 296,
@@ -112,7 +140,9 @@
     "description": "Clean lineart capturing a dynamic battle pose, left uncolored by request.",
     "images": [
       "https://picsum.photos/seed/296/900/1125"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 295,
@@ -128,7 +158,9 @@
     "images": [
       "https://picsum.photos/seed/295/900/900",
       "https://picsum.photos/seed/295b/900/900"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   },
   {
     "id": 294,
@@ -143,6 +175,8 @@
     "description": "A quick holiday-themed doodle featuring two characters exchanging gifts.",
     "images": [
       "https://picsum.photos/seed/294/900/900"
-    ]
+    ],
+    "thumbnail": "",
+    "source": ""
   }
 ]

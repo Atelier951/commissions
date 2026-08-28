@@ -1,13 +1,13 @@
 # Atelier951's Commission Gallery — starter site
 
-A static gallery page with search, year/month filtering, and a tags dropdown.
-Clicking a thumbnail opens an in-page popup (not a new tab) that can page
-through multiple images for that entry.
+A static gallery page with search, year/month/tag filtering, sorting, a
+guro content toggle, and an in-page popup viewer that can page through
+multiple images per entry.
 
 ## Files
-- `index.html` — page structure, including the popup/modal markup
+- `index.html` — page structure, including the image popup and About popup
 - `styles.css` — all styling
-- `script.js` — loads `data.json`, builds filters, renders the grid, runs the modal
+- `script.js` — loads `data.json`, builds filters, renders the grid, runs both popups
 - `data.json` — your actual commission entries (sample data included)
 
 ## Customize the content
@@ -21,6 +21,8 @@ Edit `data.json`. Each entry:
   "date": "2026-07-15",
   "tags": ["character", "color", "full-body"],
   "description": "A short description of the piece, shown in the popup below the image.",
+  "thumbnail": "",
+  "source": "",
   "images": [
     "https://your-image-host.com/image-1.jpg",
     "https://your-image-host.com/image-2.jpg"
@@ -28,19 +30,41 @@ Edit `data.json`. Each entry:
 }
 ```
 
-- `images` — an array of one or more image URLs. The first one is used as the
-  card thumbnail; clicking the card opens all of them in the popup with
-  prev/next arrows (arrow keys work too, and Escape closes it)
-- `description` — optional; shown in the popup under the tags, and searchable
-  via the search bar. Leave it as `""` to omit it for a given entry
-- `id` — used for default sort order (newest first); no longer shown on the card
-- `tags` — free text; the tags dropdown auto-builds checkboxes from whatever tags appear across your entries
+- `images` — an array of one or more image URLs. Clicking the card opens all
+  of them in the popup with prev/next arrows (arrow keys work too, Escape closes it)
+- `thumbnail` — optional. If left as `""`, the card thumbnail falls back to
+  the first entry in `images`. Set it to a URL to use a different image
+  (e.g. a cropped or lower-res version) as the card thumbnail specifically
+- `source` — optional. If filled in with a URL, the popup shows a "Source"
+  link pointing there. Leave as `""` to hide that line entirely
+- `description` — optional; shown in the popup, and searchable via the search bar
+- `id` — used for the "Entry number" sort option and as a tie-breaker when
+  sorting by date; no longer shown on the card itself
+- `tags` — free text; the tags dropdown auto-builds checkboxes from whatever
+  tags appear across your entries, **except** `guro`, which is handled separately (see below)
 - `date` — format `YYYY-MM-DD`; only the month and year are ever displayed
 
 The search bar matches against `title`, `artist`, and `description`.
 
-Also edit the placeholder text in `index.html`: the hero heading, the "About"
-copy, and the Twitter/Bluesky links in `.hero-links`.
+## Sorting
+The "Sort by" dropdown next to the tags offers:
+- **Date** (default) — newest first; entries with the same date are
+  tie-broken by `id`, highest first
+- **Entry number** — sorted by `id`, highest first
+
+## Guro content toggle
+Any entry tagged `guro` (case-insensitive) is hidden from the gallery by
+default and excluded from the tags dropdown. The 🩸 "Show guro" button in
+the filter bar reveals them; click again to hide. This toggle is independent
+of all other filters — guro entries still respect search/date/tag filters
+once revealed.
+
+## The About and Twitter links
+- **About** opens an in-page popup with your bio text — edit it directly in
+  `index.html` inside `<p class="about-text">`
+- **Twitter** links out to `https://x.com/atelier951` — update the `href` in
+  `index.html` if that changes
+- **Bluesky** is still a placeholder `#` link — update its `href` when ready
 
 ## Run it locally
 Because the page fetches `data.json`, opening `index.html` directly by
@@ -55,10 +79,12 @@ then open `http://localhost:8000` in your browser.
 
 ## Host it for free
 This is a plain static site — no build step. The simplest option is GitHub
-Pages, same as the site you referenced:
+Pages:
 
 1. Create a new GitHub repo, push these files to it.
 2. In the repo's Settings → Pages, set the source to the `main` branch, root folder.
 3. Your site will be live at `https://yourusername.github.io/reponame/`.
 
-Netlify or Vercel also work if you'd rather drag-and-drop the folder.
+When updating, always upload all files together (`index.html`, `styles.css`,
+`script.js`, `data.json`) — they reference each other's element IDs and data
+fields, so an outdated version of one can break the whole page.

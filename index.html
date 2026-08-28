@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Commission Ledger</title>
+<title>Atelier951's Commissions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
   <div class="hero-inner">
     <h1>Atelier951's Commission Gallery</h1>
     <div class="hero-links">
-      <a href="#" class="hero-link">About</a>
-      <a href="#" class="hero-link">Twitter</a>
+      <a href="#" class="hero-link" id="about-link">About</a>
+      <a href="https://x.com/atelier951" class="hero-link" target="_blank" rel="noopener noreferrer">Twitter</a>
       <a href="#" class="hero-link">Bluesky</a>
     </div>
   </div>
@@ -47,6 +47,16 @@
         <div class="tag-menu" id="tag-menu"></div>
       </details>
     </div>
+    <div class="filter-group">
+      <label for="sort-select">Sort by</label>
+      <select id="sort-select">
+        <option value="date">Date</option>
+        <option value="id">Entry number</option>
+      </select>
+    </div>
+    <button id="guro-toggle" class="guro-btn" type="button" aria-pressed="false">
+      <span aria-hidden="true">🩸</span> Show guro
+    </button>
     <button id="clear-filters" class="clear-btn">Clear filters</button>
     <p class="result-count" id="result-count"></p>
   </nav>
@@ -77,9 +87,18 @@
         <p class="modal-meta" id="modal-meta"></p>
         <div class="modal-tags" id="modal-tags"></div>
         <p class="modal-description" id="modal-description"></p>
+        <p class="modal-source" id="modal-source" hidden><a id="modal-source-link" href="#" target="_blank" rel="noopener noreferrer">Source</a></p>
       </div>
       <p class="modal-count" id="modal-count"></p>
     </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="about-overlay" hidden>
+  <div class="modal about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <button class="modal-close" id="about-close" type="button" aria-label="Close">×</button>
+    <h2 class="about-title" id="about-title">About</h2>
+    <p class="about-text">Hello! I'm atelier951, a connoisseur and commissioner of art. (I'm also a part time artist that makes Helltaker sprites). I enjoy getting art of my OC's getting into lewd hijinks, so I hope you enjoy what you see. Feel free to reach out to me if you want to do a collab!</p>
   </div>
 </div>
 
