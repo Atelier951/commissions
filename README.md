@@ -1,6 +1,6 @@
 # Atelier951's Commission Gallery — starter site
 
-A static gallery page with search, year/month/tag filtering, sorting, a
+A static gallery page with search, year/series/tag filtering, sorting, a
 guro content toggle, and an in-page popup viewer that can page through
 multiple images per entry.
 
@@ -19,6 +19,7 @@ Edit `data.json`. Each entry:
   "title": "Riverside Portrait",
   "artist": "@example_artist",
   "date": "2026-07-15",
+  "series": ["Riverside Saga"],
   "tags": ["character", "color", "full-body"],
   "description": "A short description of the piece, shown in the popup below the image.",
   "thumbnail": "",
@@ -31,7 +32,12 @@ Edit `data.json`. Each entry:
 ```
 
 - `images` — an array of one or more image URLs. Clicking the card opens all
-  of them in the popup with prev/next arrows (arrow keys work too, Escape closes it)
+  of them in the popup with prev/next arrows (arrow keys work too, Escape closes it).
+  The small count badge in the corner of a thumbnail only appears when an
+  entry has more than one image
+- `series` — an array of series/verse names this entry belongs to. Powers
+  the "Series" dropdown in the filter bar, which defaults to nothing selected
+  (shows everything). Leave as `[]` if it doesn't belong to a series
 - `thumbnail` — optional. If left as `""`, the card thumbnail falls back to
   the first entry in `images`. Set it to a URL to use a different image
   (e.g. a cropped or lower-res version) as the card thumbnail specifically
@@ -41,8 +47,10 @@ Edit `data.json`. Each entry:
 - `id` — used for the "Entry number" sort option and as a tie-breaker when
   sorting by date; no longer shown on the card itself
 - `tags` — free text; the tags dropdown auto-builds checkboxes from whatever
-  tags appear across your entries, **except** `guro`, which is handled separately (see below)
-- `date` — format `YYYY-MM-DD`; only the month and year are ever displayed
+  tags appear across your entries, including `guro` (which also has its own
+  dedicated toggle — see below)
+- `date` — accepts either `YYYY-MM-DD` or `M/D/YYYY`; only the month and
+  year are ever displayed
 
 The search bar matches against `title`, `artist`, and `description`.
 
@@ -54,10 +62,11 @@ The "Sort by" dropdown next to the tags offers:
 
 ## Guro content toggle
 Any entry tagged `guro` (case-insensitive) is hidden from the gallery by
-default and excluded from the tags dropdown. The 🩸 "Show guro" button in
-the filter bar reveals them; click again to hide. This toggle is independent
-of all other filters — guro entries still respect search/date/tag filters
-once revealed.
+default, but it now **also** appears as a normal checkbox in the tags
+dropdown. There are two ways to reveal guro entries: click the 🩸 "Show
+guro" toggle (reveals all of them, subject to your other filters), or check
+`guro` directly in the tags dropdown (reveals only guro entries, same as
+any other tag filter). Either one works independently of the other.
 
 ## Blank / reserved entries
 `data.json` currently has an entry for every id from 1 to 303, so future

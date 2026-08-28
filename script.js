@@ -1,7 +1,7 @@
 const state = {
   entries: [],
   year: "",
-  month: "",
+  series: "",
   search: "",
   activeTags: new Set(),
   sortBy: "date",
@@ -12,7 +12,7 @@ const galleryEl = document.getElementById("gallery");
 const emptyStateEl = document.getElementById("empty-state");
 const searchInput = document.getElementById("search-input");
 const yearSelect = document.getElementById("year-select");
-const monthSelect = document.getElementById("month-select");
+const seriesSelect = document.getElementById("series-select");
 const tagDropdown = document.getElementById("tag-dropdown");
 const tagDropdownSummary = document.getElementById("tag-dropdown-summary");
 const tagMenuEl = document.getElementById("tag-menu");
@@ -42,6 +42,19 @@ const aboutClose = document.getElementById("about-close");
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const GURO_TAG = "guro";
 
+// Accepts "YYYY-MM-DD" or "M/D/YYYY" (or "MM/DD/YYYY") and always returns "YYYY-MM-DD".
+// Falls back to the raw string if it doesn't match either pattern.
+function normalizeDate(raw) {
+  if (!raw) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const us = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (us) {
+    const [, mm, dd, yyyy] = us;
+    return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+  }
+  return raw;
+}
+
 const modalState = {
   entry: null,
   index: 0,
@@ -66,6 +79,7 @@ async function init() {
   }
 
   buildYearOptions();
+  buildSeriesOptions();
   buildTagMenu();
   render();
 
@@ -77,8 +91,8 @@ async function init() {
     state.year = yearSelect.value;
     render();
   });
-  monthSelect.addEventListener("change", () => {
-    state.month = monthSelect.value;
+  seriesSelect.addEventListener("change", () => {
+    state.series = seriesSelect.value;
     render();
   });
   sortSelect.addEventListener("change", () => {
@@ -95,12 +109,12 @@ async function init() {
   });
   clearBtn.addEventListener("click", () => {
     state.year = "";
-    state.month = "";
+    state.series = "";
     state.search = "";
     state.activeTags.clear();
     state.sortBy = "date";
     yearSelect.value = "";
-    monthSelect.value = "";
+    seriesSelect.value = "";
     searchInput.value = "";
     sortSelect.value = "date";
     tagMenuEl.querySelectorAll("input[type=checkbox]").forEach((cb) => (cb.checked = false));
@@ -121,7 +135,7 @@ function hasContent(entry) {
 
 function buildYearOptions() {
   const years = [...new Set(
-    state.entries.filter(hasContent).map((e) => e.date.slice(0, 4))
+    state.entries.filter(hasContent).map((e) => normalizeDate(e.date).slice(0, 4))
   )].sort((a, b) => b - a);
   years.forEach((y) => {
     const opt = document.createElement("option");
@@ -129,18 +143,22 @@ function buildYearOptions() {
     opt.textContent = y;
     yearSelect.appendChild(opt);
   });
-  MONTH_NAMES.forEach((name, i) => {
+}
+
+function buildSeriesOptions() {
+  const series = [...new Set(
+    state.entries.filter(hasContent).flatMap((e) => Array.isArray(e.series) ? e.series : [])
+  )].sort();
+  series.forEach((s) => {
     const opt = document.createElement("option");
-    opt.value = String(i + 1).padStart(2, "0");
-    opt.textContent = name;
-    monthSelect.appendChild(opt);
+    opt.value = s;
+    opt.textContent = s;
+    seriesSelect.appendChild(opt);
   });
 }
 
 function buildTagMenu() {
-  const tags = [...new Set(state.entries.filter(hasContent).flatMap((e) => e.tags))]
-    .filter((t) => t.toLowerCase() !== GURO_TAG)
-    .sort();
+  const tags = [...new Set(state.entries.filter(hasContent).flatMap((e) => e.tags))].sort();
   tags.forEach((tag) => {
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
@@ -171,12 +189,13 @@ function isGuro(entry) {
 }
 
 function getFiltered() {
+  const guroTagSelected = [...state.activeTags].some((t) => t.toLowerCase() === GURO_TAG);
   return state.entries.filter((e) => {
     if (!hasContent(e)) return false;
-    if (isGuro(e) && !state.showGuro) return false;
-    const [y, m] = e.date.split("-");
+    if (isGuro(e) && !state.showGuro && !guroTagSelected) return false;
+    const [y] = normalizeDate(e.date).split("-");
     if (state.year && y !== state.year) return false;
-    if (state.month && m !== state.month) return false;
+    if (state.series && !(Array.isArray(e.series) && e.series.includes(state.series))) return false;
     if (state.activeTags.size && ![...state.activeTags].every((t) => e.tags.includes(t))) return false;
     if (state.search) {
       const haystack = `${e.title} ${e.artist} ${e.description || ""}`.toLowerCase();
@@ -193,8 +212,10 @@ function sortEntries(entries) {
       return b.id - a.id;
     }
     // sort by date, tie-break by id
-    if (a.date !== b.date) {
-      return a.date < b.date ? 1 : -1;
+    const dateA = normalizeDate(a.date);
+    const dateB = normalizeDate(b.date);
+    if (dateA !== dateB) {
+      return dateA < dateB ? 1 : -1;
     }
     return b.id - a.id;
   });
@@ -229,11 +250,12 @@ function buildCard(entry) {
 
   const thumb = getThumb(entry);
   const count = entry.images.length;
+  const badge = count > 1 ? `<span class="card-image-count">${count}</span>` : "";
 
   card.innerHTML = `
     <div class="card-thumb-wrap">
       <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
-      <span class="card-image-count">${count}</span>
+      ${badge}
     </div>
     <div class="card-body">
       <p class="card-title">${entry.title}</p>
@@ -268,7 +290,7 @@ function openModal(entry) {
   modalState.index = 0;
   modalState.lastFocused = document.activeElement;
 
-  const [y, m] = entry.date.split("-");
+  const [y, m] = normalizeDate(entry.date).split("-");
   modalNo.textContent = `No. ${String(entry.id).padStart(3, "0")}`;
   modalTitle.textContent = entry.title;
   modalMeta.textContent = `${entry.artist} · ${MONTH_NAMES[parseInt(m, 10) - 1]} ${y}`;
