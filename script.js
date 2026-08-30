@@ -46,6 +46,21 @@ const GURO_TAG = "guro";
 const BESTIALITY_TAG = "bestiality";
 const DATA_SOURCE = document.body.dataset.source || "data.json";
 
+// Routes an image through wsrv.nl (a free image cache/resize proxy) so the
+// browser downloads a small resized WebP instead of the original full-res
+// file. Falls back to the original URL automatically if the proxy fails.
+function resizedUrl(url, width, quality = 80) {
+  if (!url) return url;
+  const params = new URLSearchParams({
+    url,
+    w: String(width),
+    output: "webp",
+    q: String(quality),
+    default: url,
+  });
+  return `https://wsrv.nl/?${params.toString()}`;
+}
+
 // Accepts "YYYY-MM-DD" or "M/D/YYYY" (or "MM/DD/YYYY") and always returns "YYYY-MM-DD".
 // Falls back to the raw string if it doesn't match either pattern.
 function normalizeDate(raw) {
@@ -269,12 +284,13 @@ function buildCard(entry) {
   card.type = "button";
 
   const thumb = getThumb(entry);
+  const thumbSrc = resizedUrl(thumb, 460, 75);
   const count = entry.images.length;
   const badge = count > 1 ? `<span class="card-image-count">${count}</span>` : "";
 
   card.innerHTML = `
     <div class="card-thumb-wrap">
-      <img class="card-thumb" src="${thumb}" alt="${entry.title}" loading="lazy">
+      <img class="card-thumb" src="${thumbSrc}" alt="${entry.title}" loading="lazy" decoding="async">
       ${badge}
     </div>
     <div class="card-body">
@@ -334,12 +350,26 @@ function openModal(entry) {
 function renderModalImage() {
   const { entry, index } = modalState;
   const images = entry.images;
-  modalImage.src = images[index];
+  modalImage.src = resizedUrl(images[index], 1400, 85);
   modalImage.alt = `${entry.title} (image ${index + 1} of ${images.length})`;
   modalCount.textContent = images.length > 1 ? `${index + 1} / ${images.length}` : "";
   const multi = images.length > 1;
   modalPrev.hidden = !multi;
   modalNext.hidden = !multi;
+  preloadNeighborImages(entry, index);
+}
+
+// Warms the browser cache for the next/prev images so paging through a
+// multi-image entry feels instant instead of waiting on each click.
+function preloadNeighborImages(entry, index) {
+  const total = entry.images.length;
+  if (total <= 1) return;
+  const nextIndex = (index + 1) % total;
+  const prevIndex = (index - 1 + total) % total;
+  [nextIndex, prevIndex].forEach((i) => {
+    const preload = new Image();
+    preload.src = resizedUrl(entry.images[i], 1400, 85);
+  });
 }
 
 function stepModal(delta) {
