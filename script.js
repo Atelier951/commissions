@@ -35,6 +35,7 @@ const modalTags = document.getElementById("modal-tags");
 const modalDescription = document.getElementById("modal-description");
 const modalSource = document.getElementById("modal-source");
 const modalSourceLink = document.getElementById("modal-source-link");
+const modalOriginalLink = document.getElementById("modal-original-link");
 const modalCount = document.getElementById("modal-count");
 
 const aboutLink = document.getElementById("about-link");
@@ -352,6 +353,7 @@ function renderModalImage() {
   const images = entry.images;
   modalImage.src = resizedUrl(images[index], 1400, 85);
   modalImage.alt = `${entry.title} (image ${index + 1} of ${images.length})`;
+  modalOriginalLink.href = images[index];
   modalCount.textContent = images.length > 1 ? `${index + 1} / ${images.length}` : "";
   const multi = images.length > 1;
   modalPrev.hidden = !multi;
