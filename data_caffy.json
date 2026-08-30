@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Example Entry (edit or delete me)",
+    "artist": "@example_artist",
+    "date": "2026-01-01",
+    "series": [],
+    "tags": [
+      "example"
+    ],
+    "description": "This is a placeholder entry showing the expected field format. Fill in real fields and add your image links, or delete this entry entirely.",
+    "thumbnail": "",
+    "source": "",
+    "images": [
+      "https://your-image-host.com/image-1.jpg"
+    ]
+  }
+]

@@ -6,6 +6,7 @@ const state = {
   activeTags: new Set(),
   sortBy: "date",
   showGuro: false,
+  showBestiality: false,
 };
 
 const galleryEl = document.getElementById("gallery");
@@ -18,6 +19,7 @@ const tagDropdownSummary = document.getElementById("tag-dropdown-summary");
 const tagMenuEl = document.getElementById("tag-menu");
 const sortSelect = document.getElementById("sort-select");
 const guroToggle = document.getElementById("guro-toggle");
+const bestialityToggle = document.getElementById("bestiality-toggle");
 const clearBtn = document.getElementById("clear-filters");
 const resultCountEl = document.getElementById("result-count");
 
@@ -41,6 +43,8 @@ const aboutClose = document.getElementById("about-close");
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const GURO_TAG = "guro";
+const BESTIALITY_TAG = "bestiality";
+const DATA_SOURCE = document.body.dataset.source || "data.json";
 
 // Accepts "YYYY-MM-DD" or "M/D/YYYY" (or "MM/DD/YYYY") and always returns "YYYY-MM-DD".
 // Falls back to the raw string if it doesn't match either pattern.
@@ -67,11 +71,11 @@ initAboutModal();
 
 async function init() {
   try {
-    const res = await fetch("data.json");
+    const res = await fetch(DATA_SOURCE);
     state.entries = await res.json();
   } catch (err) {
     galleryEl.innerHTML = `<p style="font-family:var(--font-mono);color:var(--muted);">
-      Couldn't load data.json — if you're opening this file directly (file://),
+      Couldn't load ${DATA_SOURCE} — if you're opening this file directly (file://),
       serve it from a local server instead (e.g. <code>python3 -m http.server</code>)
       or host it on GitHub Pages, where fetch works normally.
     </p>`;
@@ -79,7 +83,7 @@ async function init() {
   }
 
   buildYearOptions();
-  buildSeriesOptions();
+  if (seriesSelect) buildSeriesOptions();
   buildTagMenu();
   render();
 
@@ -91,10 +95,12 @@ async function init() {
     state.year = yearSelect.value;
     render();
   });
-  seriesSelect.addEventListener("change", () => {
-    state.series = seriesSelect.value;
-    render();
-  });
+  if (seriesSelect) {
+    seriesSelect.addEventListener("change", () => {
+      state.series = seriesSelect.value;
+      render();
+    });
+  }
   sortSelect.addEventListener("change", () => {
     state.sortBy = sortSelect.value;
     render();
@@ -107,6 +113,14 @@ async function init() {
       : '<span aria-hidden="true">🩸</span> Show guro';
     render();
   });
+  bestialityToggle.addEventListener("click", () => {
+    state.showBestiality = !state.showBestiality;
+    bestialityToggle.setAttribute("aria-pressed", String(state.showBestiality));
+    bestialityToggle.innerHTML = state.showBestiality
+      ? '<span aria-hidden="true">🐴</span> Hide bestiality'
+      : '<span aria-hidden="true">🐴</span> Show bestiality';
+    render();
+  });
   clearBtn.addEventListener("click", () => {
     state.year = "";
     state.series = "";
@@ -114,7 +128,7 @@ async function init() {
     state.activeTags.clear();
     state.sortBy = "date";
     yearSelect.value = "";
-    seriesSelect.value = "";
+    if (seriesSelect) seriesSelect.value = "";
     searchInput.value = "";
     sortSelect.value = "date";
     tagMenuEl.querySelectorAll("input[type=checkbox]").forEach((cb) => (cb.checked = false));
@@ -188,11 +202,17 @@ function isGuro(entry) {
   return entry.tags.some((t) => t.toLowerCase() === GURO_TAG);
 }
 
+function isBestiality(entry) {
+  return entry.tags.some((t) => t.toLowerCase() === BESTIALITY_TAG);
+}
+
 function getFiltered() {
   const guroTagSelected = [...state.activeTags].some((t) => t.toLowerCase() === GURO_TAG);
+  const bestialityTagSelected = [...state.activeTags].some((t) => t.toLowerCase() === BESTIALITY_TAG);
   return state.entries.filter((e) => {
     if (!hasContent(e)) return false;
     if (isGuro(e) && !state.showGuro && !guroTagSelected) return false;
+    if (isBestiality(e) && !state.showBestiality && !bestialityTagSelected) return false;
     const [y] = normalizeDate(e.date).split("-");
     if (state.year && y !== state.year) return false;
     if (state.series && !(Array.isArray(e.series) && e.series.includes(state.series))) return false;
