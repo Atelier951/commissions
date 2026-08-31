@@ -62,6 +62,19 @@ function resizedUrl(url, width, quality = 80) {
   return `https://wsrv.nl/?${params.toString()}`;
 }
 
+function isGifUrl(url) {
+  if (!url) return false;
+  return /\.gif(\?.*)?$/i.test(url);
+}
+
+// Like resizedUrl, but skips the resize proxy entirely for GIFs (wsrv.nl
+// doesn't handle them), serving the original file directly instead so
+// animation isn't lost or broken.
+function displayUrl(url, width, quality = 80) {
+  if (isGifUrl(url)) return url;
+  return resizedUrl(url, width, quality);
+}
+
 // Accepts "YYYY-MM-DD" or "M/D/YYYY" (or "MM/DD/YYYY") and always returns "YYYY-MM-DD".
 // Falls back to the raw string if it doesn't match either pattern.
 function normalizeDate(raw) {
@@ -285,7 +298,7 @@ function buildCard(entry) {
   card.type = "button";
 
   const thumb = getThumb(entry);
-  const thumbSrc = resizedUrl(thumb, 460, 75);
+  const thumbSrc = displayUrl(thumb, 460, 75);
   const count = entry.images.length;
   const badge = count > 1 ? `<span class="card-image-count">${count}</span>` : "";
 
@@ -351,7 +364,7 @@ function openModal(entry) {
 function renderModalImage() {
   const { entry, index } = modalState;
   const images = entry.images;
-  modalImage.src = resizedUrl(images[index], 1400, 85);
+  modalImage.src = displayUrl(images[index], 1400, 85);
   modalImage.alt = `${entry.title} (image ${index + 1} of ${images.length})`;
   modalOriginalLink.href = images[index];
   modalCount.textContent = images.length > 1 ? `${index + 1} / ${images.length}` : "";
@@ -370,7 +383,7 @@ function preloadNeighborImages(entry, index) {
   const prevIndex = (index - 1 + total) % total;
   [nextIndex, prevIndex].forEach((i) => {
     const preload = new Image();
-    preload.src = resizedUrl(entry.images[i], 1400, 85);
+    preload.src = displayUrl(entry.images[i], 1400, 85);
   });
 }
 
