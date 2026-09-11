@@ -9271,15 +9271,21 @@
   },
   {
     "id": 451,
-    "title": "",
-    "artist": "",
-    "date": "",
+    "title": "Eris 3D Model",
+    "artist": "HeraldoCaido",
+    "date": "2025-04-29",
     "series": [],
-    "tags": [],
-    "description": "",
+    "tags": [
+      "Eris",
+      "solo",
+      "sfw"
+    ],
+    "description": "3D model of Eris on her tentacle throne.",
     "thumbnail": "",
     "source": "",
-    "images": []
+    "images": [
+      "https://cdn.imgchest.com/files/aa794d20ddb6.mp4"
+    ]
   },
   {
     "id": 452,
